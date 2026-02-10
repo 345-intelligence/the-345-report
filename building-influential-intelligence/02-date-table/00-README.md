@@ -18,4 +18,4 @@ For Melissa's date table adapted with time zone awareness:
 ### SQL Date Table (as a calculated view)
 *Melissa's table adapted to SQL by David Gastineau*
 
-[02-v-date-table](https://github.com/345-intelligence/the-345-report/blob/main/building-influential-intelligence/02-date-table/02-v-date-table.sql)
+[02-v-date-table.sql](https://github.com/345-intelligence/the-345-report/blob/main/building-influential-intelligence/02-date-table/02-v-date-table.sql)
