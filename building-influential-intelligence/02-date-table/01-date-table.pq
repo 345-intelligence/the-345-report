@@ -1,3 +1,10 @@
+//    To use this in Power Query
+//        1. Create a new blank query
+//        2. Open the advanced editor
+//        3. Remove all contects in the advanced editor
+//        4. Paste this entire script
+//    M-joy!
+
 let
     fnDateTable = ( StartDate as date, EndDate as date, optional FYStartMonthNum as number, optional Holidays as list, optional WDStartNum as number, optional AddRelativeNetWorkdays as logical ) as table =>
     let
