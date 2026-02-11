@@ -1,6 +1,6 @@
 /* 
 -------------------------------------
-V_DATE_TABLE_SUNDAY 
+V_DATE_TABLE
 -------------------------------------
 Author:   David Gastineau
 Week ends on Sunday (week starts Monday)
@@ -18,9 +18,17 @@ params AS (
     'America/Chicago' AS tz,
 
     -- ✅ "Parameter": start date
-    DATE '2026-01-01' AS start_date,
+    
+    -- Hard coded
+    DATE '2026-01-01' AS start_date, 
+    -- Dynamic | Comment above and activate below to use
+    -- DATE_TRUNC(DATE_SUB(CURRENT_DATE('America/Chicago'), INTERVAL 0 YEAR), YEAR) AS start_date,
 
     -- ✅ "Parameter": end date (default = end of year, today + x years)
+
+    -- Hard coded
+    -- DATE '2026-12-31' AS end_date,
+    -- Dynamic | Comment below and activate above to use
     LAST_DAY(DATE_ADD(CURRENT_DATE('America/Chicago'), INTERVAL 0 YEAR), YEAR) AS end_date,
 
     -- Anchor values computed once
@@ -75,23 +83,21 @@ base AS (
     DATE_TRUNC(c.day, WEEK(MONDAY)) AS start_of_week,
     LAST_DAY(c.day, WEEK(MONDAY)) AS end_of_week,
 
-    -- Keep your original WEEK_NUMBER style (Sunday-based %U) for compatibility
     FORMAT_DATE('%U', c.day) AS week_number,
     CONCAT('W', CAST(FORMAT_DATE('%U', c.day) AS INT64), ' ', FORMAT_DATE('%Y', c.day)) AS week_year,
 
-    -- Your original WEEKNYEAR logic preserved (year/week derived from end_of_week)
     CONCAT(
       CAST(EXTRACT(YEAR FROM LAST_DAY(c.day, WEEK(MONDAY))) AS STRING),
       LPAD(CAST(EXTRACT(WEEK FROM LAST_DAY(c.day, WEEK(MONDAY))) AS STRING), 2, '0')
     ) AS weeknyear,
 
     /*--DAY---------------------------------------------------------*/
-    -- ISO-like day of week number (Mon=1..Sun=7) matches your original %u
+    -- ISO-like day of week number 
     CAST(FORMAT_DATE('%u', c.day) AS INT64) AS day_of_week_number,
     FORMAT_DATE('%A', c.day) AS day_name,
     FORMAT_DATE('%a', c.day) AS day_name_short,
 
-    -- Optional surrogate key (often helpful in BI)
+    -- Date key
     CAST(FORMAT_DATE('%Y%m%d', c.day) AS INT64) AS date_key
 
   FROM calendar c
